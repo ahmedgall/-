@@ -106,10 +106,15 @@
     const file = fileInput.files[0];
 
     const goToCard = (imageData) => {
-      let link = `card.html?name=${name}&job=${job}&phone=${phone}&social=${social}`;
-      if (imageData) link += `&image=${imageData}`;
-      window.location.href = link;
-    };
+  if (imageData) {
+    localStorage.setItem('cardImage', imageData);
+  } else {
+    localStorage.removeItem('cardImage');
+  }
+  let link = `card.html?name=${name}&job=${job}&phone=${phone}&social=${social}`;
+  window.location.href = link;
+};
+
 
     if (file) {
       const reader = new FileReader();
