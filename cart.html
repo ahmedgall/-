@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>صمّم بطاقتك</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(to right, #00c0a3, #007c75);
+      color: #333;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background-color: #ffffff;
+      border-radius: 20px;
+      padding: 40px 30px;
+      max-width: 450px;
+      width: 100%;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      animation: fadeIn 0.6s ease;
+    }
+
+    .container h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #00c0a3;
+      font-size: 26px;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input[type="text"],
+    input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #00c0a3;
+      outline: none;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 15px;
+      background-color: #00c0a3;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #007c75;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>أنشئ بطاقتك الإلكترونية</h2>
+  <form id="cardForm">
+    <label>الاسم الكامل</label>
+    <input type="text" name="name" required>
+
+    <label>الوظيفة</label>
+    <input type="text" name="job" required>
+
+    <label>رقم الهاتف</label>
+    <input type="text" name="phone">
+
+    <label>رابط تواصل (واتساب - لينكدإن - فيسبوك)</label>
+    <input type="text" name="social">
+
+    <label>صورة شخصية</label>
+    <input type="file" id="photo" accept="image/*">
+
+    <button type="submit">أنشئ بطاقتي</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('cardForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = encodeURIComponent(this.name.value);
+    const job = encodeURIComponent(this.job.value);
+    const phone = encodeURIComponent(this.phone.value);
+    const social = encodeURIComponent(this.social.value);
+    const fileInput = document.getElementById("photo");
+    const file = fileInput.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = function () {
+        const imageData = encodeURIComponent(reader.result);
+        const link = `card.html?name=${name}&job=${job}&phone=${phone}&social=${social}&image=${imageData}`;
+        window.location.href = link;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      const link = `card.html?nam''e=${name}&job=${job}&phone=${phone}&social=${social}`;
+      window.location.href = link;
+    }
+  });
+</script>
+
+</body>
+</html>
