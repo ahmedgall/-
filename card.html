@@ -82,10 +82,11 @@
     socialLink.style.display = "none";
   }
 
-  const imgData = params.get("image");
-  document.getElementById("card-image").src = imgData
-    ? decodeURIComponent(imgData)
-    : "https://via.placeholder.com/120?text=No+Image";
+  const imgData = localStorage.getItem("cardImage");
+document.getElementById("card-image").src = imgData
+  ? imgData
+  : "https://via.placeholder.com/120?text=No+Image";
+
 </script>
 
 </body>
