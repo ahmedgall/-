@@ -76,6 +76,9 @@
 </head>
 <body>
 
+<div class="card" id="card">
+  جاري تحميل البيانات...
+</div>
 
 <script>
   const params = new URLSearchParams(window.location.search);
@@ -86,7 +89,7 @@
   const image = decodeURIComponent(params.get("image") || "");
 
   document.getElementById("card").innerHTML = `
-     alt="${name}">` : ""}
+    ${image ? `<img src="${image}" alt="${name}">` : ""}
     <h2>${name}</h2>
     <p>الوظيفة: ${job}</p>
     ${phone ? `<p>📞 ${phone}</p>` : ""}
