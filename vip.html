@@ -127,45 +127,35 @@
  
  
  
- <div style="text-align:center; margin-top: 30px;">
+
+<div style="text-align:center; margin-top: 30px;">
   <p style="font-weight:bold;">👁️ عدد زيارات الموقع:</p>
-  <p id="fake-counter" style="font-size: 24px; font-weight: bold; color: #0;">جارٍ التحميل...</p>
+  <p id="fake-counter" style="font-size: 24px; font-weight: bold; color: #00b54;">جارٍ التحميل...</p>
 </div>
 
 <script>
-  // مفتاح التخزين المحلي
   const STORAGE_KEY = "fake-visitor-count";
   const TIME_KEY = "fake-visitor-time";
 
-  // الوقت الحالي
   const now = new Date().getTime();
-
-  // وقت آخر تحديث محفوظ
   let lastTime = localStorage.getItem(TIME_KEY);
   let count = localStorage.getItem(STORAGE_KEY);
 
-  // لو أول مرة أو البيانات قديمة جدًا نبدأ من رقم عشوائي
   if (!count || !lastTime || now - lastTime > 12 * 60 * 60 * 1000) {
-    count = Math.floor(100 + Math.random() * 900); // من 100 إلى 999
+    // أول مرة: عشوائي من 5000 إلى 10000
+    count = Math.floor(5000 + Math.random() * 5000);
     lastTime = now;
   }
 
-  // نحسب عدد الدقائق اللي فاتت من آخر تحديث
   const minutesPassed = Math.floor((now - lastTime) / (5 * 60 * 1000)); // كل 5 دقايق
 
-  // نزود الرقم حسب عدد الفترات اللي عدت
   count = parseInt(count) + minutesPassed;
 
-  // نعرض الرقم
   document.getElementById("fake-counter").textContent = count.toLocaleString();
 
-  // نحفظ البيانات
   localStorage.setItem(STORAGE_KEY, count);
   localStorage.setItem(TIME_KEY, now);
 </script>
-
- 
-
 
  
  
