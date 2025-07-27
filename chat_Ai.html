@@ -1,75 +1,86 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>شات AI - واتساب ستايل</title>
+  <meta charset="UTF-8" />
+  <title>شات AI - ستايل واتساب</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Tahoma', sans-serif;
-      background-color: #ece5dd;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background-color: #d9dbd5;
     }
+
     .chat-container {
       max-width: 600px;
-      margin: 0 auto;
-      background: #fff;
-      height: 100vh;
+      margin: auto;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      height: 100vh;
+      background-color: #ece5dd;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
+
     .chat-header {
       background-color: #075e54;
-      color: #fff;
+      color: white;
       padding: 15px;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
     }
+
     .chat-box {
       flex: 1;
-      padding: 15px;
       overflow-y: auto;
-      background-color: #dcf8c6;
+      padding: 15px;
       display: flex;
       flex-direction: column;
+      background-image: url('https://i.imgur.com/0QpVkTc.png'); /* خلفية خفيفة */
+      background-size: cover;
     }
+
     .message {
       max-width: 80%;
-      margin: 10px;
       padding: 10px 15px;
-      border-radius: 10px;
+      margin: 8px;
+      border-radius: 15px;
       line-height: 1.6;
-      word-wrap: break-word;
+      font-size: 15px;
+      white-space: pre-line;
     }
+
     .user {
-      background-color: #e2ffc7;
+      background-color: #dcf8c6;
       align-self: flex-end;
       border-bottom-right-radius: 0;
       text-align: right;
     }
+
     .bot {
-      background-color: #fff;
+      background-color: #ffffff;
       align-self: flex-start;
       border-bottom-left-radius: 0;
       text-align: left;
     }
+
     .input-area {
       display: flex;
       padding: 10px;
       background-color: #f0f0f0;
-      border-top: 1px solid #ddd;
+      border-top: 1px solid #ccc;
     }
+
     input {
       flex: 1;
-      border: none;
       padding: 10px 15px;
       font-size: 16px;
+      border: none;
       border-radius: 20px;
       outline: none;
     }
+
     button {
       margin-right: 10px;
-      background-color: #075e54;
+      background-color: #25d366;
       color: white;
       border: none;
       border-radius: 20px;
@@ -77,8 +88,16 @@
       font-size: 16px;
       cursor: pointer;
     }
+
     button:hover {
-      background-color: #0b7d6a;
+      background-color: #128c7e;
+    }
+
+    .loading {
+      font-size: 14px;
+      color: gray;
+      margin: 5px;
+      align-self: flex-start;
     }
   </style>
 </head>
@@ -94,7 +113,7 @@
   </div>
 
   <script>
-    const apiKey = "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"; // ✅ ← ضيف مفتاح OpenAI هنا
+    const apiKey = "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"; // ← ضع مفتاح OpenAI هنا
     const chatBox = document.getElementById('chatBox');
 
     async function sendMessage() {
@@ -104,6 +123,13 @@
 
       appendMessage(message, 'user');
       input.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      const loading = document.createElement('div');
+      loading.className = 'loading';
+      loading.id = 'loading';
+      loading.innerText = '... جاري التفكير';
+      chatBox.appendChild(loading);
       chatBox.scrollTop = chatBox.scrollHeight;
 
       try {
@@ -123,6 +149,7 @@
         });
 
         const data = await response.json();
+        document.getElementById('loading').remove();
 
         if (data.choices && data.choices.length > 0) {
           const reply = data.choices[0].message.content;
@@ -132,16 +159,18 @@
         }
         chatBox.scrollTop = chatBox.scrollHeight;
       } catch (error) {
-        appendMessage("⚠️ حدث خطأ، حاول مرة أخرى.", 'bot');
+        document.getElementById('loading').remove();
+        appendMessage("⚠️ حدث خطأ أثناء الاتصال.", 'bot');
         console.error("خطأ:", error);
       }
     }
 
     function appendMessage(text, type) {
       const messageDiv = document.createElement('div');
-      messageDiv.classList.add('message', type);
+      messageDiv.className = `message ${type}`;
       messageDiv.textContent = text;
       chatBox.appendChild(messageDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
     }
   </script>
 
